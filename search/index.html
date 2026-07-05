@@ -7,101 +7,140 @@
 <!-- Alpine.js vendored locally (no CDN — matches the hyparquet pattern; avoids the SRI/CDN-compromise risk). Pinned 3.14.1. -->
 <script defer src="alpine.min.js"></script>
 <style>
+ /* ── "measured honesty": pine + assayed gold, green-biased neutrals, clay for the
+    inflated-label warning (semantic, deliberately not the accent). Both themes. ── */
  :root{
-  --paper:#f6f8f5; --card:#fff; --ink:#1f2a28; --mut:#6b7a74; --line:#e4eae5;
-  --green:#2f6b4f; --green-d:#234f3b; --honey:#b98a2e; --clay:#b1503c; --clay-bg:#f7ece8;
-  --data:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  --paper:#eef2e9; --card:#f8fbf4; --sunk:#e7ede0; --ink:#17231b; --mut:#5d6c60; --faint:#8a988c;
+  --line:#d6ddcd; --gold:#b5811b; --gold-2:#d7a231; --pine:#1f5638; --pine-2:#2f7a51;
+  --clay:#b3502f; --clay-bg:#f6e7e0;
+  --green:var(--pine); --green-d:var(--pine); --honey:var(--gold);   /* back-compat aliases */
+  --data:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(20,40,28,.06),0 8px 24px -12px rgba(20,40,28,.14);
+ }
+ @media (prefers-color-scheme:dark){:root{
+  --paper:#0f150f; --card:#161d15; --sunk:#1b241a; --ink:#e8efe2; --mut:#9aa89b; --faint:#6c7a6d;
+  --line:#28321f; --gold:#e0a52e; --gold-2:#f0b944; --pine:#3f9469; --pine-2:#5cb384;
+  --clay:#e07a54; --clay-bg:#2a1c15; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.55);
+ }}
+ :root[data-theme="light"]{
+  --paper:#eef2e9; --card:#f8fbf4; --sunk:#e7ede0; --ink:#17231b; --mut:#5d6c60; --faint:#8a988c;
+  --line:#d6ddcd; --gold:#b5811b; --gold-2:#d7a231; --pine:#1f5638; --pine-2:#2f7a51;
+  --clay:#b3502f; --clay-bg:#f6e7e0; --shadow:0 1px 2px rgba(20,40,28,.06),0 8px 24px -12px rgba(20,40,28,.14);
+ }
+ :root[data-theme="dark"]{
+  --paper:#0f150f; --card:#161d15; --sunk:#1b241a; --ink:#e8efe2; --mut:#9aa89b; --faint:#6c7a6d;
+  --line:#28321f; --gold:#e0a52e; --gold-2:#f0b944; --pine:#3f9469; --pine-2:#5cb384;
+  --clay:#e07a54; --clay-bg:#2a1c15; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.55);
  }
  *{box-sizing:border-box}
- body{font:15px/1.55 ui-sans-serif,system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);margin:0;padding:0 1rem 4rem}
- .wrap{max-width:1180px;margin:0 auto}
- header{padding:1.6rem 0 .6rem}
- .eyebrow{font:600 11.5px/1 ui-sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin:0 0 .5rem}
- h1{margin:0;font-size:1.85rem;font-weight:680;letter-spacing:-.01em;line-height:1.1}
- h1 em{font-style:normal;color:var(--honey)}
- .sub{color:var(--mut);margin:.4rem 0 0;max-width:60ch}
+ body{font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--paper);color:var(--ink);margin:0;padding:0 clamp(.9rem,3vw,2rem) 5rem;transition:background .2s,color .2s}
+ .wrap{max-width:1200px;margin:0 auto}
+
+ /* masthead — the thesis is the hero */
+ header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;padding:2rem 0 .4rem}
+ .eyebrow{font:700 11px/1 ui-sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--pine-2);margin:0 0 .7rem}
+ h1{margin:0;font-size:clamp(1.6rem,4.4vw,2.6rem);font-weight:820;letter-spacing:-.025em;line-height:1;text-wrap:balance;max-width:18ch}
+ h1 em{font-style:normal;color:var(--gold)}
+ h1 .strike{position:relative;color:var(--faint);white-space:nowrap}
+ h1 .strike::after{content:"";position:absolute;left:-.04em;right:-.04em;top:54%;height:.1em;background:var(--clay);transform:rotate(-4deg)}
+ .sub{color:var(--mut);margin:.8rem 0 0;max-width:60ch;font-size:.97rem}
  .sub b{color:var(--ink);font-weight:600}
+ .icon{width:38px;height:38px;flex-shrink:0;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--mut);cursor:pointer;font-size:15px;display:grid;place-items:center;transition:.15s}
+ .icon:hover{border-color:var(--pine-2);color:var(--pine-2)}
+ .key{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin:1rem 0 0;padding:.6rem .85rem;background:var(--sunk);border:1px solid var(--line);border-radius:11px;font-size:12px;color:var(--mut)}
+ .key b{color:var(--ink);font-weight:650}
+ .key .dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:-1px;margin-right:.35rem}
 
- .controls{background:var(--paper);padding:.7rem 0 .5rem;border-bottom:1px solid var(--line)}
- .rankrow{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin-bottom:.5rem}
- .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--card)}
- .seg button{border:0;background:transparent;font:600 13px/1 inherit;padding:.5rem .7rem;cursor:pointer;color:var(--mut);border-right:1px solid var(--line)}
+ .controls{background:var(--paper);padding:1.1rem 0 .5rem}
+ .rankrow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.55rem}
+ .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card);box-shadow:var(--shadow)}
+ .seg button{border:0;background:transparent;font:640 13px/1 inherit;padding:.55rem .8rem;cursor:pointer;color:var(--mut);border-right:1px solid var(--line);transition:.12s}
  .seg button:last-child{border-right:0}
- .seg button[aria-pressed=true]{background:var(--green);color:#fff}
+ .seg button[aria-pressed=true]{background:var(--pine);color:#fff}
+ :root[data-theme="dark"] .seg button[aria-pressed=true]{background:var(--pine-2);color:#0f150f}
  .slider{display:flex;align-items:center;gap:.45rem;color:var(--mut);font-size:12.5px}
- .slider input{accent-color:var(--green)}
+ .slider input{accent-color:var(--gold)}
  .effrow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:.1rem 0 .5rem}
- .efflabel{font:600 11px/1 ui-sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--honey)}
- .effchip{border:1px dashed #cdb9a0;background:var(--card);border-radius:20px;padding:.34rem .7rem;font:600 12.5px/1 inherit;cursor:pointer;color:var(--ink)}
+ .efflabel{font:700 11px/1 ui-sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+ .effchip{border:1px dashed var(--gold);background:var(--card);border-radius:20px;padding:.34rem .7rem;font:640 12.5px/1 inherit;cursor:pointer;color:var(--ink)}
  .effchip.hyp{opacity:.82}
- .effchip.on{background:var(--honey);border-style:solid;border-color:var(--honey);color:#3a2c0a}
+ .effchip.on{background:var(--gold);border-style:solid;color:#fff}
+ :root[data-theme="dark"] .effchip.on{color:#161d15}
  .evtag{font:700 10px/1 ui-sans-serif;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:5px;padding:.18rem .35rem}
- .match{color:var(--green);font-size:12px}
+ .match{color:var(--pine-2);font-size:12px}
  .more{color:var(--mut);font-size:12px}
- /* Self-contained scroll region so the column headers can pin (position:sticky needs a scroll
-    container). Vertical scroll of the results lives here — NOT the page — so thead top:0 sticks
-    the headers while the single-table layout keeps head/body columns aligned (the fix the reverted
-    #43 sticky-on-collapse attempt missed). */
- .tablewrap{overflow:auto;max-height:calc(100vh - 2rem);-webkit-overflow-scrolling:touch}
- button:focus-visible,th:focus-visible,.effchip:focus-visible{outline:2px solid var(--green);outline-offset:2px}
- th[aria-sort]{position:relative}
+ button:focus-visible,th:focus-visible,.effchip:focus-visible,a:focus-visible{outline:2px solid var(--pine-2);outline-offset:2px}
  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
- .filters{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
- .filters input,.filters select{padding:.4rem .5rem;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--card);color:var(--ink)}
+ .filters{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+ .filters input,.filters select{padding:.5rem .55rem;border:1px solid var(--line);border-radius:9px;font:inherit;background:var(--card);color:var(--ink)}
  #q{flex:1;min-width:180px}
- .filters input:focus,.filters select:focus{outline:2px solid var(--green);outline-offset:1px;border-color:var(--green)}
- .ghost{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:.4rem .6rem;font:inherit;cursor:pointer;color:var(--ink)}
- .ghost:hover{border-color:var(--green);color:var(--green)}
- .near{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;color:var(--mut);font-size:12.5px;margin-top:.45rem}
- .near input{padding:.32rem .45rem;border:1px solid var(--line);border-radius:7px;font:inherit;background:var(--card)}
+ .filters input:focus,.filters select:focus{outline:2px solid var(--pine-2);outline-offset:1px;border-color:var(--pine-2)}
+ .ghost{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:.5rem .65rem;font:inherit;cursor:pointer;color:var(--ink)}
+ .ghost:hover{border-color:var(--pine-2);color:var(--pine-2)}
+ .near{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;color:var(--mut);font-size:12.5px;margin-top:.5rem}
+ .near input{padding:.4rem .5rem;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--card);color:var(--ink)}
 
- .count{color:var(--mut);font-size:13px;margin:.8rem 0 .4rem}
+ .count{color:var(--mut);font-size:13px;margin:.9rem 0 .5rem}
  .count b{color:var(--ink)}
 
+ /* the value ledger — a bordered card with a self-contained scroll region so the column
+    headers can pin (position:sticky needs a scroll ancestor). One table keeps head/body
+    columns aligned — the fix the reverted #43 sticky-on-collapse attempt missed. */
+ .tablewrap{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:auto;max-height:calc(100vh - 6rem);-webkit-overflow-scrolling:touch}
  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
- /* sticky column headers pin to the top of .tablewrap on scroll; the separator is a box-shadow
-    (not a border) so it travels with the sticky cell instead of scrolling away. */
- thead th{background:var(--paper);position:sticky;top:0;z-index:3;box-shadow:inset 0 -1.5px var(--line)}
- th{text-align:left;padding:.5rem .55rem;cursor:pointer;user-select:none;
-    font:600 11px/1 ui-sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
+ thead th{background:var(--card);position:sticky;top:0;z-index:3;box-shadow:inset 0 -1px var(--line)}
+ th{text-align:left;padding:.65rem .7rem;cursor:pointer;user-select:none;font:700 10.5px/1 ui-sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+ th:hover{color:var(--pine-2)}
  th.num{text-align:right}
- td{padding:.5rem .55rem;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:middle}
- tbody tr:hover{background:#fbfdfb}
+ td{padding:.6rem .7rem;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+ tbody tr:last-child td{border-bottom:0}
+ tbody tr:hover{background:var(--sunk)}
  .num,.data{font-family:var(--data);font-variant-numeric:tabular-nums;text-align:right}
  .prod{white-space:normal;max-width:30ch}
- .prod .nm{font-weight:600}
+ .prod .nm{font-weight:660;letter-spacing:-.005em}
  .prod .meta{color:var(--mut);font-size:12px}
- .terp{color:#93a39b;font-family:var(--data);font-variant-numeric:tabular-nums;text-align:right;font-size:12px}
+ .terp{color:var(--mut);font-family:var(--data);font-variant-numeric:tabular-nums;text-align:right;font-size:12px}
 
- /* signature: the value mark + honesty cues */
- .vcell{min-width:118px}
- .vbar{height:7px;border-radius:4px;background:#e8efe9;overflow:hidden;margin-top:3px}
- .vbar > i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--honey))}
- .pick{display:inline-flex;align-items:center;gap:.28rem;font:700 10.5px/1 ui-sans-serif;letter-spacing:.04em;text-transform:uppercase;color:var(--green-d)}
- .pick::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--honey);box-shadow:0 0 0 3px #f0e6cf}
+ /* signature: the value verdict — a score + meter, and the struck-THC honesty cue */
+ .vcell{width:160px}
+ .vhead{display:flex;align-items:center;gap:.4rem}
+ .vscore{font:800 15px/1 var(--data);font-variant-numeric:tabular-nums;color:var(--ink);min-width:2.4ch}
+ .vbar{height:8px;border-radius:5px;background:var(--sunk);border:1px solid var(--line);overflow:hidden;margin-top:.35rem}
+ .vbar > i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--pine-2),var(--gold-2))}
+ .pick{font:800 9.5px/1 ui-sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--gold);border-radius:5px;padding:.2rem .34rem}
+ :root[data-theme="dark"] .pick{color:#161d15}
  .thc{font-family:var(--data);font-variant-numeric:tabular-nums;text-align:right}
- .flag{display:inline-block;margin-left:.3rem;font:700 9.5px/1.5 ui-sans-serif;letter-spacing:.03em;text-transform:uppercase;
-       color:var(--clay);background:var(--clay-bg);border:1px solid #e7c9c0;border-radius:5px;padding:.05rem .3rem;vertical-align:middle}
- .flag[data-k=impossible]{color:#fff;background:var(--clay);border-color:var(--clay)}
- footer{color:#9aa8a1;font-size:12px;margin-top:2rem;border-top:1px solid var(--line);padding-top:1rem}
- .note{background:#fff;border:1px solid var(--line);border-left:3px solid var(--honey);border-radius:8px;padding:.5rem .7rem;color:var(--mut);font-size:12.5px;margin:.5rem 0}
+ .thcnum.flagged{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--clay);text-decoration-thickness:2px}
+ .flag{display:inline-block;margin-left:.3rem;font:800 9px/1.5 ui-sans-serif;letter-spacing:.03em;text-transform:uppercase;color:var(--clay);background:var(--clay-bg);border:1px solid var(--clay);border-radius:5px;padding:.05rem .3rem;vertical-align:middle}
+ .flag[data-k=impossible]{color:#fff;background:var(--clay)}
+ :root[data-theme="dark"] .flag[data-k=impossible]{color:#161d15}
+ footer{color:var(--faint);font-size:12px;margin-top:1.6rem;border-top:1px solid var(--line);padding-top:1rem;line-height:1.6}
+ .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:9px;padding:.55rem .75rem;color:var(--mut);font-size:12.5px;margin:.5rem 0}
  [x-cloak]{display:none}
- .modal{position:fixed;inset:0;background:rgba(31,42,40,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:1rem}
- .modalcard{background:var(--card);border-radius:12px;max-width:31rem;padding:1.3rem 1.4rem;box-shadow:0 10px 40px rgba(0,0,0,.22)}
+ .modal{position:fixed;inset:0;background:rgba(15,21,15,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:1rem}
+ .modalcard{background:var(--card);border:1px solid var(--line);border-radius:13px;max-width:31rem;padding:1.3rem 1.4rem;box-shadow:var(--shadow)}
  .modalcard h2{margin:0 0 .5rem;font-size:1.12rem;color:var(--ink)}
  .modalcard p{color:var(--mut);font-size:13.5px;line-height:1.5;margin:0 0 1rem}
- .modalcard .primary{background:var(--green);color:#fff;border:0;border-radius:8px;padding:.55rem 1.05rem;font:600 14px/1 inherit;cursor:pointer}
- .modalcard .primary:hover{background:var(--green-d)}
- @media(max-width:760px){ .hideSm{display:none} h1{font-size:1.5rem} }
+ .modalcard .primary{background:var(--pine);color:#fff;border:0;border-radius:9px;padding:.55rem 1.05rem;font:640 14px/1 inherit;cursor:pointer}
+ :root[data-theme="dark"] .modalcard .primary{background:var(--pine-2);color:#161d15}
+ @media(max-width:760px){ .hideSm{display:none} h1{font-size:1.6rem} .vcell{width:120px} }
 </style>
 </head>
 <body>
 <div class="wrap" x-data="search()" x-init="init()" x-cloak>
  <header>
-  <p class="eyebrow" x-text="states.length>1 ? 'Live menus' : state+' · live menu'"></p>
-  <h1 x-text="heading">Ranked by <em>value</em>, not by the label.</h1>
-  <p class="sub">Every store in the state, one search. We rank on <b>terpene content</b>, <b>brand consistency</b>, and <b>price</b> — and we <b>flag THC numbers that look inflated</b> (cannabis labels are inflated; that's measured, not a guess). <span x-text="snapshot"></span></p>
+  <div>
+   <p class="eyebrow" x-text="states.length>1 ? 'Live menus' : state+' · live menu'"></p>
+   <h1>Ranked by <em>value</em>, not by the <span class="strike">label</span>.</h1>
+   <p class="sub">Every store, one search. We rank on <b>terpene content</b>, <b>brand consistency</b>, and <b>price per gram</b> — and <b>discount THC numbers that look inflated</b> (the label often is; that's measured, not a guess). <span x-text="snapshot"></span></p>
+  </div>
+  <button class="icon" id="themeBtn" title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
  </header>
+ <div class="key" role="note">
+  <span><span class="dot" style="background:linear-gradient(90deg,var(--pine-2),var(--gold-2))"></span><b>Value meter</b> — terpenes &amp; brand consistency per dollar</span>
+  <span><span class="dot" style="background:var(--gold)"></span><b>Smart pick</b> — top value in view</span>
+  <span><span class="dot" style="background:var(--clay)"></span><b>Struck THC</b> — bunched at a marketing number, or impossible &gt;35%</span>
+ </div>
 
  <!-- #4 first-use acknowledgment before the experimental effect filter (dismiss-once, localStorage) -->
  <div class="modal" x-show="effModal" x-cloak role="dialog" aria-modal="true" aria-labelledby="effmt" @keydown.escape.window="effModal=false">
@@ -183,13 +222,13 @@
    <template x-for="x in visible" :key="x._i">
     <tr>
      <td class="vcell">
-      <span class="pick" x-show="x._pick" x-text="'smart pick'"></span>
+      <div class="vhead"><span class="vscore" x-text="Math.round((x._vpct||0)*100)"></span><span class="pick" x-show="x._pick">pick</span></div>
       <div class="vbar" x-show="x._v>0"><i :style="`width:${Math.round(x._vpct*100)}%`"></i></div>
      </td>
      <td class="prod"><div class="nm" x-text="x.n"></div><div class="meta"><span x-text="x.b"></span> · <span x-text="x.c"></span><span x-show="x.t" x-text="' · '+(x.t||'')"></span></div><div class="match" x-show="effect&&x._mt">▸ <span x-text="x._mt"></span></div></td>
      <td class="hideSm" x-text="x.b"></td>
      <td class="hideSm" x-text="x.pt"></td>
-     <td class="thc"><span x-text="fmt(x.thc)"></span><span class="flag" x-show="x._gamed" :data-k="x._gamed" x-text="x._gamed==='impossible'?'impossible':'inflated?'"></span></td>
+     <td class="thc"><span class="thcnum" :class="{flagged:x._gamed}" x-text="fmt(x.thc)"></span><span class="flag" x-show="x._gamed" :data-k="x._gamed" x-text="x._gamed==='impossible'?'impossible':'inflated?'"></span></td>
      <td class="num hideSm" x-text="fmt(x.cbd)"></td>
      <td class="num" x-text="x.ppg!=null?curSym+x.ppg.toFixed(2):''"></td>
      <td class="hideSm" x-text="x.sz"></td>
@@ -360,6 +399,19 @@ function search(){
   reset(){ Object.assign(this,{q:"",cat:"",ptype:"",strain:"",brand:"",store:"",city:"",thc:"",pmax:"",zip:"",center:null,centerLabel:"",rank:"value",effect:"",sortK:"_v",sortDir:-1,priceBias:60}); },
  };
 }
+</script>
+<script>
+ /* theme toggle — independent of Alpine; flips data-theme on <html> and remembers it */
+ (function(){
+  const r=document.documentElement, k="atlas-theme";
+  try{ const t=localStorage.getItem(k); if(t) r.setAttribute("data-theme",t); }catch(e){}
+  document.addEventListener("click",e=>{
+   if(!e.target.closest("#themeBtn")) return;
+   const cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+   const next=cur==="dark"?"light":"dark"; r.setAttribute("data-theme",next);
+   try{ localStorage.setItem(k,next); }catch(e){}
+  });
+ })();
 </script>
 </body>
 </html>
