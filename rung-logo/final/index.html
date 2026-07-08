@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg">
+<title>rung — selected logo</title>
+<style>
+  :root{ --paper:#eef3f2; --ink:#0e2a29; --muted:#5c7674; --line:#d3e0de; --panel:#fff;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  @media (prefers-color-scheme:dark){ :root{ --paper:#081312; --ink:#dfeceb; --muted:#7fa09d; --line:#1d3230; --panel:#0f1e1c; } }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#12b3a0;margin:0 0 12px}
+  h1{font-size:34px;margin:0 0 10px;letter-spacing:-.02em}
+  h1 .wm{font-family:var(--mono);letter-spacing:-.03em}
+  p.lede{color:var(--muted);max-width:60ch;margin:0 0 34px}
+  .bars{display:grid;gap:16px}
+  .bar{display:flex;align-items:center;gap:14px;padding:16px 22px;border-radius:12px;border:1px solid var(--line)}
+  .bar .wm{font-family:var(--mono);font-weight:600;font-size:24px;letter-spacing:-.03em}
+  .bar .tag{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+  .bar-light{ --ink:#0e2a29; --sig:#12b3a0; background:#ffffff; color:#0e2a29 }
+  .bar-dark{  --ink:#e6f2f0; --sig:#3fe0cc; background:#0b1615; color:#e6f2f0 }
+  .mark{width:34px;height:34px;flex:none;display:block}
+  .mark .rail{fill:var(--ink)}
+  .mark .rung{fill:var(--ink);opacity:.34}
+  @keyframes climb{0%,100%{fill:var(--ink);opacity:.34}12%,24%{fill:var(--sig);opacity:1}}
+  .mark .r0{animation:climb 3.6s ease-in-out infinite}
+  .mark .r1{animation:climb 3.6s ease-in-out infinite .45s}
+  .mark .r2{animation:climb 3.6s ease-in-out infinite .9s}
+  @media (prefers-reduced-motion:reduce){ .mark .rung{animation:none} .mark .r1{fill:var(--sig);opacity:1} }
+  .row{display:flex;align-items:center;gap:22px;margin-top:34px;flex-wrap:wrap}
+  .fav{display:flex;align-items:center;gap:10px}
+  .fav img{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:3px}
+  .fav span{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .files{margin-top:34px;font-family:var(--mono);font-size:13px}
+  .files a{color:#12b3a0}
+  .back{display:inline-block;margin-top:26px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Selected · Concept 01</p>
+  <h1>The <span class="wm">rung</span> ladder</h1>
+  <p class="lede">The literal ladder, animated: the lit rung climbs bottom-to-top — "run the cheapest
+    rung that works." Shown below exactly as it sits in the docs header, on the light and dark themes.</p>
+
+  <div class="bars">
+    <div class="bar bar-light">
+      <svg class="mark" viewBox="0 0 48 48" aria-label="rung">
+        <rect class="rung r2" x="13" y="10.2" width="22" height="4.4" rx="2.2"/>
+        <rect class="rung r1" x="13" y="21.8" width="22" height="4.4" rx="2.2"/>
+        <rect class="rung r0" x="13" y="33.4" width="22" height="4.4" rx="2.2"/>
+        <rect class="rail" x="11.5" y="5.5" width="5" height="37" rx="2.5"/>
+        <rect class="rail" x="31.5" y="5.5" width="5" height="37" rx="2.5"/>
+      </svg>
+      <span class="wm">rung</span><span class="tag">Light header</span>
+    </div>
+    <div class="bar bar-dark">
+      <svg class="mark" viewBox="0 0 48 48" aria-label="rung">
+        <rect class="rung r2" x="13" y="10.2" width="22" height="4.4" rx="2.2"/>
+        <rect class="rung r1" x="13" y="21.8" width="22" height="4.4" rx="2.2"/>
+        <rect class="rung r0" x="13" y="33.4" width="22" height="4.4" rx="2.2"/>
+        <rect class="rail" x="11.5" y="5.5" width="5" height="37" rx="2.5"/>
+        <rect class="rail" x="31.5" y="5.5" width="5" height="37" rx="2.5"/>
+      </svg>
+      <span class="wm">rung</span><span class="tag">Dark header</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="fav"><img src="../favicon.svg" width="32" height="32" alt="favicon 32"><span>32</span></div>
+    <div class="fav"><img src="../favicon.svg" width="16" height="16" alt="favicon 16"><span>16 · favicon</span></div>
+  </div>
+
+  <p class="files">production files:
+    <a href="../logo.svg">logo.svg</a> · <a href="../favicon.svg">favicon.svg</a></p>
+  <a class="back" href="../">← all three concepts</a>
+</div>
+</body>
+</html>
